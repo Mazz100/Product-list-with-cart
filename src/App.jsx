@@ -6,8 +6,8 @@ import ProductCart from "./ProductCart";
 function App() {
   return (
     <>
-      <div className="min-h-screen font-red-hat-text p-4 flex flex-col items-center bg-body-bg-color">
-        <main className="max-w-[24rem]">
+      <div className="Desktop:p-8 flex min-h-screen flex-col items-center bg-body-bg-color p-4 font-red-hat-text">
+        <main className="Desktop:grid Desktop:grid-cols-2 Desktop:max-w-none Desktop:gap-6 Desktop:place-content-center Desktop:place-items-start max-w-[24rem]">
           <h1 className="text-4xl font-bold">Desserts</h1>
           <ProductList />
           <ProductCart />

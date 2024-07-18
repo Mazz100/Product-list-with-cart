@@ -3,12 +3,12 @@ import products from "../data.json";
 
 const ProductList = () => {
   return (
-    <div className="my-4">
-      <ul>
+    <div className="Desktop:col-start-1 col-end-2 my-4">
+      <ul className="Desktop:grid Desktop:grid-cols-3 Desktop:auto-rows-auto Desktop:gap-6 Tablet:grid-cols-2 Tablet:grid Tablet:gap-6">
         {products.map((product, index) => (
           <li
             key={index}
-            className="my-6 flex w-full flex-col items-center gap-1"
+            className="Desktop:my-0 my-4 flex w-full flex-col items-center"
           >
             <picture className="overflow-hidden rounded-lg">
               <source
@@ -23,7 +23,7 @@ const ProductList = () => {
             </picture>
             <button
               type="button"
-              className="inline-flex -translate-y-1/2 gap-2 rounded-full border-[1px] border-border-color-light bg-white p-2 px-4"
+              className="inline-flex -translate-y-1/2 gap-2 rounded-full border-[1px] border-border-color-light bg-white p-2 px-4 font-semibold transition-colors duration-200 hover:border-primary-color hover:text-primary-color"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

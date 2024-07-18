@@ -2,8 +2,8 @@ import React from "react";
 
 const ProductCart = () => {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6">
-      <h2 className="self-start text-3xl font-bold text-primary-color">
+    <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6 shadow-sm">
+      <h2 className="self-start text-2xl font-bold text-primary-color">
         Your Cart (0)
       </h2>
 
@@ -64,7 +64,9 @@ const ProductCart = () => {
         />
       </svg>
 
-      <p>Your added items will appear here</p>
+      <p className="text-text-color-medium font-semibold">
+        Your added items will appear here
+      </p>
     </div>
   );
 };

@@ -21,6 +21,17 @@ export default {
         "border-color-medium": "#87635a",
         "border-color-strong": "#260f08",
       },
+
+      textColor: {
+        "text-color-light": "#ad8985",
+        "text-color-medium": "#87635a",
+        "text-color-strong": "#260f08",
+      },
+
+      screens: {
+        Tablet: "48rem",
+        Desktop: "80rem",
+      },
     },
   },
   plugins: [],
