@@ -1,28 +1,35 @@
-import { useContext } from "react";
-import { cartCountContext } from "./App";
+import {} from "react";
 import emptyCart from "./icons/illustration-empty-cart.svg";
 
-const ProductCart = ({}) => {
-  const [cartCount, setCartCount] = useContext(cartCountContext);
-
+const ProductCart = ({ items, cartCount, onUpdateCartItem }) => {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-sm">
-      <h2 className="self-start text-2xl font-bold text-primary-color">
-        Your Cart {`(${cartCount})`}
-      </h2>
+    <>
+      {!cartCount ? (
+        <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-sm">
+          <h2 className="self-start text-2xl font-bold text-primary-color">
+            Your Cart (0)
+          </h2>
 
-      {!cartCount && (
-        <div className="flex flex-col items-center">
           <img src={emptyCart} alt="" />
 
           <p className="font-semibold text-text-color-medium">
             Your added items will appear here
           </p>
         </div>
-      )}
+      ) : (
+        <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-sm">
+          <h2 className="self-start text-2xl font-bold text-primary-color">
+            Your Cart ({cartCount})
+          </h2>
 
-      {cartCount > 0 && <p>Example order</p>}
-    </div>
+          {items.map((item, index) => (
+            <div key={index}>
+              <p className="text-sm font-semibold">{item}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

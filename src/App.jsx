@@ -2,63 +2,66 @@ import { createContext, useState } from "react";
 import "./App.css";
 import ProductList from "./ProductList";
 import ProductCart from "./ProductCart";
-import products from "../data.json";
-import cartIcon from "./icons/icon-add-to-cart.svg";
-
-export const cartCountContext = createContext();
+import productData from "../data.json";
 
 function App() {
-  const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItem] = useState([]);
+  const cartCount = cartItems.length;
 
-  function addItemToCart(item) {
-    setCartCount((c) => c + 1);
-    item = Object.values(item);
-    console.log(item);
+  function addCartItem({ name, quantity }) {
+    let isAdded = false;
+    cartItems.map((item) => {
+      if (name === item) {
+        isAdded = true;
+      }
+    });
+
+    if (isAdded) {
+      return;
+    }
+
+    setCartItem([...cartItems, name]);
+    console.log(cartItems);
   }
 
-  const [displayProduct, setDisplayProduct] = useState(
-    products.map((product, id) => (
-      <li
-        key={id}
-        className="my-4 flex w-full flex-col items-center Desktop:my-0"
-      >
-        <picture className="overflow-hidden rounded-lg">
-          <source srcSet={product.image.desktop} media="(min-width:80rem)" />
-          <source srcSet={product.image.tablet} media="(min-width: 48rem)" />
-          <img src={product.image.mobile} alt={product.name} />
-        </picture>
+  function removeCartItem({ name }) {
+    const deleteItem = cartItems.filter((item) => item.name !== name);
+    setCartItem(deleteItem);
+  }
 
-        <button
-          type="button"
-          onClick={() => addItemToCart(product)}
-          className="inline-flex -translate-y-1/2 gap-2 rounded-full border-[1px] border-border-color-light bg-white p-2 px-4 font-semibold transition-colors duration-200 hover:border-primary-color hover:text-primary-color"
-        >
-          <img src={cartIcon} alt="" />
-          Add to Cart
-        </button>
-
-        <p className="self-start text-sm opacity-70">{product.category}</p>
-        <p className="self-start font-semibold">{product.name}</p>
-        <span className="self-start text-sm font-semibold text-primary-color">
-          ${product.price.toFixed(2)}
-        </span>
-      </li>
-    )),
-  );
+  function updateCartItem({ name, quantity }) {}
 
   return (
     <>
       <div className="flex min-h-screen flex-col items-center bg-body-bg-color p-4 font-red-hat-text">
         <main className="max-w-[24rem] Tablet:max-w-[42rem] Desktop:grid Desktop:max-w-[90rem] Desktop:grid-cols-2 Desktop:place-content-center Desktop:place-items-start Desktop:gap-6">
           <h1 className="text-4xl font-bold">Desserts</h1>
-          <cartCountContext.Provider value={[cartCount, setCartCount]}>
-            <ProductList
-              products={products}
-              displayProduct={displayProduct}
-              setDisplayProduct={setDisplayProduct}
-            />
-            <ProductCart />
-          </cartCountContext.Provider>
+
+          <div className="col-end-2 my-4 Desktop:col-start-1">
+            <ul className="Tablet:grid Tablet:grid-cols-2 Tablet:gap-6 Desktop:grid-cols-3 Desktop:gap-6">
+              {productData.map((product) => (
+                <ProductList
+                  key={product.name}
+                  product={product}
+                  onAddToCart={(quantity) =>
+                    addCartItem({
+                      name: product.name,
+                      quantity,
+                    })
+                  }
+                />
+              ))}
+            </ul>
+          </div>
+
+          <ProductCart
+            items={cartItems}
+            cartCount={cartCount}
+            onRemoveItem={(name) => removeCartItem({ name })}
+            onUpdateCartItem={({ name, quantity }) =>
+              updateCartItem({ name, quantity })
+            }
+          />
         </main>
         <footer></footer>
       </div>
