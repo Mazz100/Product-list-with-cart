@@ -6,12 +6,13 @@ import productData from "../data.json";
 
 function App() {
   const [cartItems, setCartItem] = useState([]);
+  const [totalPrice, setTotalPrice] = useState();
   const cartCount = cartItems.length;
 
-  function addCartItem({ name, quantity }) {
+  function addCartItem({ product, quantity }) {
     let isAdded = false;
     cartItems.map((item) => {
-      if (name === item) {
+      if (product.name === item.name) {
         isAdded = true;
       }
     });
@@ -20,7 +21,7 @@ function App() {
       return;
     }
 
-    setCartItem([...cartItems, name]);
+    setCartItem([...cartItems, product]);
     console.log(cartItems);
   }
 
@@ -45,7 +46,7 @@ function App() {
                   product={product}
                   onAddToCart={(quantity) =>
                     addCartItem({
-                      name: product.name,
+                      product: product,
                       quantity,
                     })
                   }

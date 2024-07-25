@@ -9,6 +9,9 @@ export default {
 
       backgroundColor: {
         "body-bg-color": "#fcf9f7",
+        "bg-color-1": "#fcf9f7",
+        "bg-color-2": "#f4edeb",
+        "bg-color-3": "#c9aea6",
       },
 
       colors: {
@@ -17,6 +20,7 @@ export default {
       },
 
       borderColor: {
+        "border-color-veryLight": "#f4edeb",
         "border-color-light": "#ad8985",
         "border-color-medium": "#87635a",
         "border-color-strong": "#260f08",

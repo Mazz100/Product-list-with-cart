@@ -1,7 +1,9 @@
-import {} from "react";
+import React, { useState, useEffect } from "react";
 import emptyCart from "./icons/illustration-empty-cart.svg";
+import removeIcon from "./icons/icon-remove-item.svg";
+import carbonIcon from "./icons/icon-carbon-neutral.svg";
 
-const ProductCart = ({ items, cartCount, onUpdateCartItem }) => {
+const ProductCart = ({ items, cartCount, onUpdateCartItem, onRemoveItem }) => {
   return (
     <>
       {!cartCount ? (
@@ -17,16 +19,62 @@ const ProductCart = ({ items, cartCount, onUpdateCartItem }) => {
           </p>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-sm">
+        <div className="flex flex-col rounded-lg bg-white p-8 shadow-sm">
           <h2 className="self-start text-2xl font-bold text-primary-color">
             Your Cart ({cartCount})
           </h2>
 
-          {items.map((item, index) => (
-            <div key={index}>
-              <p className="text-sm font-semibold">{item}</p>
+          {items.map((item) => (
+            <div
+              key={item.name}
+              className="border-border-color-veryLight mb-5 flex items-center justify-between gap-6 border-b-[1px] p-4"
+            >
+              <div className="flex flex-col">
+                <p className="text-sm font-semibold">{item.name}</p>
+
+                <div className="flex items-center">
+                  {/*Quantitiy and total price tags*/}
+
+                  {/* product price */}
+                  <p className="text-sm font-semibold text-text-color-medium">
+                    ${item.price.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+
+              {/*Remove item button*/}
+              <button
+                className="group rounded-full border-[1px] border-border-color-medium p-[1px] transition-colors ease-in hover:border-border-color-strong"
+                onClick={() => onRemoveItem(item.name)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="10"
+                  height="10"
+                  fill="#000"
+                  viewBox="0 0 10 10"
+                >
+                  <path
+                    className="transition-colors group-hover:fill-black"
+                    fill="#CAAFA7"
+                    d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"
+                  />
+                </svg>
+              </button>
             </div>
           ))}
+
+          <div className="flex w-full items-center justify-between">
+            <p className="text-xs font-semibold">Order Total</p>
+            <span className="text-xl font-bold">$0.00</span>
+          </div>
+
+          <div className="bg-bg-color-1 my-4 flex items-center justify-center gap-2 rounded-md p-4">
+            <img src={carbonIcon} alt="" />
+            <p className="text-sm">
+              This is a <strong>carbon-neutral</strong> delivery
+            </p>
+          </div>
         </div>
       )}
     </>
