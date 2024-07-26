@@ -3,7 +3,18 @@ import emptyCart from "./icons/illustration-empty-cart.svg";
 import removeIcon from "./icons/icon-remove-item.svg";
 import carbonIcon from "./icons/icon-carbon-neutral.svg";
 
-const ProductCart = ({ items, cartCount, onUpdateCartItem, onRemoveItem }) => {
+const ProductCart = ({
+  items,
+  cartCount,
+  onUpdateCartItem,
+  onRemoveItem,
+  setPrice,
+  price,
+}) => {
+  useEffect(() => {
+    onUpdateCartItem(price);
+  }, [items]);
+
   return (
     <>
       {!cartCount ? (
@@ -27,7 +38,7 @@ const ProductCart = ({ items, cartCount, onUpdateCartItem, onRemoveItem }) => {
           {items.map((item) => (
             <div
               key={item.name}
-              className="border-border-color-veryLight mb-5 flex items-center justify-between gap-6 border-b-[1px] p-4"
+              className="mb-5 flex items-center justify-between gap-6 border-b-[1px] border-border-color-veryLight p-4"
             >
               <div className="flex flex-col">
                 <p className="text-sm font-semibold">{item.name}</p>
@@ -66,10 +77,10 @@ const ProductCart = ({ items, cartCount, onUpdateCartItem, onRemoveItem }) => {
 
           <div className="flex w-full items-center justify-between">
             <p className="text-xs font-semibold">Order Total</p>
-            <span className="text-xl font-bold">$0.00</span>
+            <span className="text-xl font-bold">${price.toFixed(2)}</span>
           </div>
 
-          <div className="bg-bg-color-1 my-4 flex items-center justify-center gap-2 rounded-md p-4">
+          <div className="my-4 flex items-center justify-center gap-2 rounded-md bg-bg-color-1 p-4">
             <img src={carbonIcon} alt="" />
             <p className="text-sm">
               This is a <strong>carbon-neutral</strong> delivery

@@ -6,7 +6,7 @@ import productData from "../data.json";
 
 function App() {
   const [cartItems, setCartItem] = useState([]);
-  const [totalPrice, setTotalPrice] = useState();
+  const [price, setPrice] = useState(0);
   const cartCount = cartItems.length;
 
   function addCartItem({ product, quantity }) {
@@ -22,7 +22,6 @@ function App() {
     }
 
     setCartItem([...cartItems, product]);
-    console.log(cartItems);
   }
 
   function removeCartItem({ name }) {
@@ -30,7 +29,14 @@ function App() {
     setCartItem(deleteItem);
   }
 
-  function updateCartItem({ name, quantity }) {}
+  function updateCartItem({ price, quantity }) {
+    price = 0;
+    cartItems.map((item) => {
+      price += item.price;
+    });
+
+    setPrice(price);
+  }
 
   return (
     <>
@@ -59,9 +65,11 @@ function App() {
             items={cartItems}
             cartCount={cartCount}
             onRemoveItem={(name) => removeCartItem({ name })}
-            onUpdateCartItem={({ name, quantity }) =>
-              updateCartItem({ name, quantity })
+            onUpdateCartItem={({ price, quantity }) =>
+              updateCartItem({ price, quantity })
             }
+            setPrice={setPrice}
+            price={price}
           />
         </main>
         <footer></footer>
