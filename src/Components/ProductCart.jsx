@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
-import emptyCart from "./icons/illustration-empty-cart.svg";
-import removeIcon from "./icons/icon-remove-item.svg";
-import carbonIcon from "./icons/icon-carbon-neutral.svg";
+import React, { useState, useEffect, useContext } from "react";
+import emptyCart from "../icons/illustration-empty-cart.svg";
+import removeIcon from "../icons/icon-remove-item.svg";
+import carbonIcon from "../icons/icon-carbon-neutral.svg";
 
-const ProductCart = ({
-  items,
-  cartCount,
-  onUpdateCartItem,
-  onRemoveItem,
-  setPrice,
-  price,
-}) => {
+import { priceContext, cartContext } from "../App";
+
+const ProductCart = ({ cartCount, onUpdateCartItem, onRemoveItem }) => {
+  const [price, setPrice] = useContext(priceContext);
+  const [cartItems, setCartItems] = useContext(cartContext);
+
   useEffect(() => {
-    onUpdateCartItem(price);
-  }, [items]);
+    let quantity = cartItems.find((item) => item.quantity);
+    onUpdateCartItem(price, quantity);
+  }, [cartItems]);
 
   return (
     <>
@@ -35,7 +34,7 @@ const ProductCart = ({
             Your Cart ({cartCount})
           </h2>
 
-          {items.map((item) => (
+          {cartItems.map((item) => (
             <div
               key={item.name}
               className="mb-5 flex items-center justify-between gap-6 border-b-[1px] border-border-color-veryLight p-4"
@@ -43,8 +42,12 @@ const ProductCart = ({
               <div className="flex flex-col">
                 <p className="text-sm font-semibold">{item.name}</p>
 
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                   {/*Quantitiy and total price tags*/}
+                  <span className="text-sm font-semibold text-primary-color">{`x${item.quantity}`}</span>
+                  <span className="text-sm text-text-color-light">
+                    @{`${item.price * item.quantity}.00`}
+                  </span>
 
                   {/* product price */}
                   <p className="text-sm font-semibold text-text-color-medium">

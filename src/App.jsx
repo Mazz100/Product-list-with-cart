@@ -1,38 +1,46 @@
 import { createContext, useState } from "react";
 import "./App.css";
-import ProductList from "./ProductList";
-import ProductCart from "./ProductCart";
+import ProductList from "./Components/ProductList";
+import ProductCart from "./Components/ProductCart";
 import productData from "../data.json";
 
+export const priceContext = createContext();
+export const cartContext = createContext();
+
 function App() {
-  const [cartItems, setCartItem] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [price, setPrice] = useState(0);
   const cartCount = cartItems.length;
 
   function addCartItem({ product, quantity }) {
-    let isAdded = false;
-    cartItems.map((item) => {
-      if (product.name === item.name) {
-        isAdded = true;
-      }
-    });
+    const itemAlreadyInCart = cartItems.find(
+      (item) => item.name === product.name,
+    );
 
-    if (isAdded) {
-      return;
+    if (itemAlreadyInCart) {
+      setCartItems(
+        cartItems.map((cartItem) =>
+          cartItem.name === product.name
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem,
+        ),
+      );
+    } else {
+      setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }
 
-    setCartItem([...cartItems, product]);
+    console.log(cartItems);
   }
 
   function removeCartItem({ name }) {
     const deleteItem = cartItems.filter((item) => item.name !== name);
-    setCartItem(deleteItem);
+    setCartItems(deleteItem);
   }
 
-  function updateCartItem({ price, quantity }) {
+  function updateCartItem({ price }) {
     price = 0;
     cartItems.map((item) => {
-      price += item.price;
+      price += item.price * item.quantity;
     });
 
     setPrice(price);
@@ -47,30 +55,35 @@ function App() {
           <div className="col-end-2 my-4 Desktop:col-start-1">
             <ul className="Tablet:grid Tablet:grid-cols-2 Tablet:gap-6 Desktop:grid-cols-3 Desktop:gap-6">
               {productData.map((product) => (
-                <ProductList
+                <cartContext.Provider
+                  value={[cartItems, setCartItems]}
                   key={product.name}
-                  product={product}
-                  onAddToCart={(quantity) =>
-                    addCartItem({
-                      product: product,
-                      quantity,
-                    })
-                  }
-                />
+                >
+                  <ProductList
+                    product={product}
+                    onAddToCart={(quantity) =>
+                      addCartItem({
+                        product: product,
+                        quantity,
+                      })
+                    }
+                  />
+                </cartContext.Provider>
               ))}
             </ul>
           </div>
 
-          <ProductCart
-            items={cartItems}
-            cartCount={cartCount}
-            onRemoveItem={(name) => removeCartItem({ name })}
-            onUpdateCartItem={({ price, quantity }) =>
-              updateCartItem({ price, quantity })
-            }
-            setPrice={setPrice}
-            price={price}
-          />
+          <priceContext.Provider value={[price, setPrice]}>
+            <cartContext.Provider value={[cartItems, setCartItems]}>
+              <ProductCart
+                cartCount={cartCount}
+                onRemoveItem={(name) => removeCartItem({ name })}
+                onUpdateCartItem={({ price, quantity }) =>
+                  updateCartItem({ price, quantity })
+                }
+              />
+            </cartContext.Provider>
+          </priceContext.Provider>
         </main>
         <footer></footer>
       </div>

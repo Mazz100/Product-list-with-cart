@@ -1,7 +1,13 @@
-import {} from "react";
-import cartIcon from "./icons/icon-add-to-cart.svg";
+import { useContext } from "react";
+
+import AddToCartButton from "./AddToCartButton";
+import NumberInput from "./NumberInput";
+
+import { cartContext } from "../App";
 
 const ProductList = ({ product, onAddToCart }) => {
+  const [cartItems, setCartItem] = useContext(cartContext);
+
   return (
     <li className="my-4 flex w-full flex-col items-center Desktop:my-0">
       <picture className="overflow-hidden rounded-lg">
@@ -19,13 +25,7 @@ const ProductList = ({ product, onAddToCart }) => {
           console.log(quantity);
         }}
       >
-        <button
-          type="submit"
-          className="inline-flex -translate-y-1/2 gap-2 rounded-full border-[1px] border-border-color-light bg-white p-2 px-4 font-semibold transition-colors duration-200 hover:border-primary-color hover:text-primary-color"
-        >
-          <img src={cartIcon} alt="" />
-          Add to Cart
-        </button>
+        <AddToCartButton />
       </form>
 
       <p className="self-start text-sm opacity-70">{product.category}</p>
