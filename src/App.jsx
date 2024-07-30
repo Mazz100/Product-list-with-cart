@@ -14,7 +14,7 @@ function App() {
   const productWithQuantity = productData.map((product) => ({
     ...product,
     quantity:
-      cartItems.find((item) => item.name === product.name)?.quantity ?? 0,
+      cartItems.find((item) => item.name === product.name)?.quantity ?? 0, //Update quantity to 0 if it's undefined using `??`
   }));
 
   function addCartItem({ product }) {
@@ -35,14 +35,12 @@ function App() {
       setCartItems((prevCartItems) =>
         prevCartItems.filter((item) => item.name != name),
       );
-      console.log("removed");
     } else {
       setCartItems((prevCartItems) =>
         prevCartItems.map((item) =>
-          item.name === name ? { ...item, newQuantity } : item,
+          item.name === name ? { ...item, quantity: newQuantity } : item,
         ),
       );
-      console.log("Updated");
     }
   }
 

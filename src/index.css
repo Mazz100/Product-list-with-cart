@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  /*Remove default input number arrows*/
+  .no-arrows::-webkit-inner-spin-button,
+  .no-arrows::-webkit-outer-spin-button {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  /*Firfox appreance removing*/
+  .no-arrows {
+    appearance: none;
+    -moz-appearance: textfield;
+  }
+}

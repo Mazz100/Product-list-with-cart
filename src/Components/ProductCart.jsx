@@ -46,7 +46,7 @@ const ProductCart = ({ items, cartCount, onRemoveItem }) => {
 
               {/*Remove item button*/}
               <button
-                className="group rounded-full border-[1px] border-border-color-medium p-[1px] transition-colors ease-in hover:border-border-color-strong"
+                className="focus-visible:outline-outline-color-medium group rounded-full border-[1px] border-border-color-medium p-[1px] transition-colors duration-150 ease-in hover:border-border-color-strong focus-visible:outline-offset-4"
                 onClick={() => onRemoveItem(item.name)}
               >
                 <svg
@@ -82,6 +82,10 @@ const ProductCart = ({ items, cartCount, onRemoveItem }) => {
               This is a <strong>carbon-neutral</strong> delivery
             </p>
           </div>
+
+          <button className="hover:bg-hover-state w-full rounded-full bg-primary-color p-3 text-center text-white transition-colors duration-150 ease-in focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary-color">
+            Confirm Order
+          </button>
         </div>
       )}
     </>

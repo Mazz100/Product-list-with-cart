@@ -17,6 +17,7 @@ export default {
       colors: {
         "primary-color": "#c73a0f",
         "secondary-color": "#1ea475",
+        "hover-state": "#952c0c",
       },
 
       borderColor: {
@@ -24,6 +25,13 @@ export default {
         "border-color-light": "#ad8985",
         "border-color-medium": "#87635a",
         "border-color-strong": "#260f08",
+      },
+
+      outlineColor: {
+        "outline-color-veryLight": "#f4edeb",
+        "outline-color-light": "#ad8985",
+        "outline-color-medium": "#87635a",
+        "outline-color-strong": "#260f08",
       },
 
       textColor: {
