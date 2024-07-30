@@ -1,19 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import emptyCart from "../icons/illustration-empty-cart.svg";
 import removeIcon from "../icons/icon-remove-item.svg";
 import carbonIcon from "../icons/icon-carbon-neutral.svg";
 
-import { priceContext, cartContext } from "../App";
-
-const ProductCart = ({ cartCount, onUpdateCartItem, onRemoveItem }) => {
-  const [price, setPrice] = useContext(priceContext);
-  const [cartItems, setCartItems] = useContext(cartContext);
-
-  useEffect(() => {
-    let quantity = cartItems.find((item) => item.quantity);
-    onUpdateCartItem(price, quantity);
-  }, [cartItems]);
-
+const ProductCart = ({ items, cartCount, onRemoveItem }) => {
   return (
     <>
       {!cartCount ? (
@@ -34,7 +24,7 @@ const ProductCart = ({ cartCount, onUpdateCartItem, onRemoveItem }) => {
             Your Cart ({cartCount})
           </h2>
 
-          {cartItems.map((item) => (
+          {items.map((item) => (
             <div
               key={item.name}
               className="mb-5 flex items-center justify-between gap-6 border-b-[1px] border-border-color-veryLight p-4"
@@ -43,13 +33,11 @@ const ProductCart = ({ cartCount, onUpdateCartItem, onRemoveItem }) => {
                 <p className="text-sm font-semibold">{item.name}</p>
 
                 <div className="flex items-center gap-2">
-                  {/*Quantitiy and total price tags*/}
                   <span className="text-sm font-semibold text-primary-color">{`x${item.quantity}`}</span>
                   <span className="text-sm text-text-color-light">
-                    @{`${item.price * item.quantity}.00`}
+                    @{`${(item.price * item.quantity).toFixed(2)}`}
                   </span>
 
-                  {/* product price */}
                   <p className="text-sm font-semibold text-text-color-medium">
                     ${item.price.toFixed(2)}
                   </p>
@@ -80,7 +68,12 @@ const ProductCart = ({ cartCount, onUpdateCartItem, onRemoveItem }) => {
 
           <div className="flex w-full items-center justify-between">
             <p className="text-xs font-semibold">Order Total</p>
-            <span className="text-xl font-bold">${price.toFixed(2)}</span>
+            <span className="text-xl font-bold">
+              $
+              {items
+                .reduce((total, item) => total + item.price * item.quantity, 0)
+                .toFixed(2)}
+            </span>
           </div>
 
           <div className="my-4 flex items-center justify-center gap-2 rounded-md bg-bg-color-1 p-4">

@@ -9,41 +9,41 @@ export const cartContext = createContext();
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  const [price, setPrice] = useState(0);
   const cartCount = cartItems.length;
 
-  function addCartItem({ product, quantity }) {
-    const itemAlreadyInCart = cartItems.find(
-      (item) => item.name === product.name,
-    );
+  const productWithQuantity = productData.map((product) => ({
+    ...product,
+    quantity:
+      cartItems.find((item) => item.name === product.name)?.quantity ?? 0,
+  }));
 
-    if (itemAlreadyInCart) {
-      setCartItems(
-        cartItems.map((cartItem) =>
-          cartItem.name === product.name
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem,
-        ),
-      );
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
-    }
-
-    console.log(cartItems);
+  function addCartItem({ product }) {
+    setCartItems((prevCartItems) => [
+      ...prevCartItems,
+      { ...product, quantity: 1 },
+    ]);
   }
 
   function removeCartItem({ name }) {
     const deleteItem = cartItems.filter((item) => item.name !== name);
     setCartItems(deleteItem);
+    console.log(deleteItem);
   }
 
-  function updateCartItem({ price }) {
-    price = 0;
-    cartItems.map((item) => {
-      price += item.price * item.quantity;
-    });
-
-    setPrice(price);
+  function updateQuantity(name, newQuantity) {
+    if (newQuantity === 0) {
+      setCartItems((prevCartItems) =>
+        prevCartItems.filter((item) => item.name != name),
+      );
+      console.log("removed");
+    } else {
+      setCartItems((prevCartItems) =>
+        prevCartItems.map((item) =>
+          item.name === name ? { ...item, newQuantity } : item,
+        ),
+      );
+      console.log("Updated");
+    }
   }
 
   return (
@@ -54,36 +54,26 @@ function App() {
 
           <div className="col-end-2 my-4 Desktop:col-start-1">
             <ul className="Tablet:grid Tablet:grid-cols-2 Tablet:gap-6 Desktop:grid-cols-3 Desktop:gap-6">
-              {productData.map((product) => (
-                <cartContext.Provider
-                  value={[cartItems, setCartItems]}
+              {productWithQuantity.map((product) => (
+                <ProductList
                   key={product.name}
-                >
-                  <ProductList
-                    product={product}
-                    onAddToCart={(quantity) =>
-                      addCartItem({
-                        product: product,
-                        quantity,
-                      })
-                    }
-                  />
-                </cartContext.Provider>
+                  product={product}
+                  onAddToCart={() => addCartItem({ product })}
+                  onUpdateQuantity={(newQuantity) =>
+                    updateQuantity(product.name, newQuantity)
+                  }
+                  setCartItems={setCartItems}
+                  cartItems={cartItems}
+                />
               ))}
             </ul>
           </div>
-
-          <priceContext.Provider value={[price, setPrice]}>
-            <cartContext.Provider value={[cartItems, setCartItems]}>
-              <ProductCart
-                cartCount={cartCount}
-                onRemoveItem={(name) => removeCartItem({ name })}
-                onUpdateCartItem={({ price, quantity }) =>
-                  updateCartItem({ price, quantity })
-                }
-              />
-            </cartContext.Provider>
-          </priceContext.Provider>
+          <ProductCart
+            items={cartItems}
+            cartCount={cartCount}
+            onRemoveItem={(name) => removeCartItem({ name })}
+            onUpdateCartItem={(quantity) => updateQuantity(quantity)}
+          />
         </main>
         <footer></footer>
       </div>

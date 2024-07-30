@@ -1,12 +1,19 @@
-import { useContext } from "react";
+import {} from "react";
+import cartIcon from "../icons/icon-add-to-cart.svg";
+import incrementIcon from "../icons/icon-increment-quantity.svg";
+import decrementIcon from "../icons/icon-decrement-quantity.svg";
 
-import AddToCartButton from "./AddToCartButton";
-import NumberInput from "./NumberInput";
+const ProductList = ({ product, onUpdateQuantity, onAddToCart }) => {
+  //Increment and decrement product quantity
+  function increment() {
+    const newQuantity = product.quantity + 1;
+    onUpdateQuantity(newQuantity);
+  }
 
-import { cartContext } from "../App";
-
-const ProductList = ({ product, onAddToCart }) => {
-  const [cartItems, setCartItem] = useContext(cartContext);
+  function decrement() {
+    const newQuantity = product.quantity - 1;
+    onUpdateQuantity(newQuantity);
+  }
 
   return (
     <li className="my-4 flex w-full flex-col items-center Desktop:my-0">
@@ -16,17 +23,35 @@ const ProductList = ({ product, onAddToCart }) => {
         <img src={product.image.mobile} alt={product.name} />
       </picture>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const quantity = Number(formData.get("quantity"));
-          onAddToCart(quantity);
-          console.log(quantity);
-        }}
-      >
-        <AddToCartButton />
-      </form>
+      {product.quantity === 0 ? (
+        <button
+          onClick={onAddToCart}
+          className="inline-flex -translate-y-1/2 gap-2 rounded-full border-[1px] border-border-color-light bg-white p-2 px-4 font-semibold transition-colors duration-200 hover:border-primary-color hover:text-primary-color"
+        >
+          <img src={cartIcon} alt="" />
+          Add to Cart
+        </button>
+      ) : (
+        <div className="flex -translate-y-1/2 items-center justify-evenly rounded-full bg-primary-color p-2 font-semibold text-text-color-light transition-colors duration-200 hover:text-primary-color">
+          <button onClick={increment} className="">
+            <img className="w-full" src={incrementIcon} alt="" />
+          </button>
+
+          <input
+            className="max-w-[50%]"
+            type="number"
+            value={product.quantity}
+            onChange={(e) => {
+              const newQuantity = Number(e.target.value);
+              onUpdateQuantity(newQuantity);
+            }}
+            readOnly
+          />
+          <button onClick={decrement} className="">
+            <img className="w-full" src={decrementIcon} alt="" />
+          </button>
+        </div>
+      )}
 
       <p className="self-start text-sm opacity-70">{product.category}</p>
       <p className="self-start font-semibold">{product.name}</p>
