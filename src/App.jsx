@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import "./App.css";
 import ProductList from "./Components/ProductList";
 import ProductCart from "./Components/ProductCart";
@@ -8,7 +8,11 @@ export const priceContext = createContext();
 export const cartContext = createContext();
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(
+    localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [],
+  );
   const cartCount = cartItems.length;
 
   const productWithQuantity = productData.map((product) => ({
@@ -44,6 +48,24 @@ function App() {
     }
   }
 
+  function clearCart() {
+    setCartItems([]);
+  }
+
+  useEffect(() => {
+    //Update local storage with each cartItems render
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    //Parse cartItems data on component mount
+    const cardItems = localStorage.getItem("cartItems");
+
+    if (cardItems) {
+      setCartItems(JSON.parse(localStorage.getItem("cartItems")));
+    }
+  }, []);
+
   return (
     <>
       <div className="flex min-h-screen flex-col items-center bg-body-bg-color p-4 font-red-hat-text">
@@ -71,6 +93,7 @@ function App() {
             cartCount={cartCount}
             onRemoveItem={(name) => removeCartItem({ name })}
             onUpdateCartItem={(quantity) => updateQuantity(quantity)}
+            onClearCart={clearCart}
           />
         </main>
         <footer></footer>

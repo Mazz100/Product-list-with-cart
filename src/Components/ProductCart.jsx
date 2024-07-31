@@ -2,8 +2,9 @@ import React from "react";
 import emptyCart from "../icons/illustration-empty-cart.svg";
 import removeIcon from "../icons/icon-remove-item.svg";
 import carbonIcon from "../icons/icon-carbon-neutral.svg";
+import OrderConfirm from "./OrderConfirm";
 
-const ProductCart = ({ items, cartCount, onRemoveItem }) => {
+const ProductCart = ({ items, cartCount, onRemoveItem, onClearCart }) => {
   return (
     <>
       {!cartCount ? (
@@ -35,18 +36,18 @@ const ProductCart = ({ items, cartCount, onRemoveItem }) => {
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-primary-color">{`x${item.quantity}`}</span>
                   <span className="text-sm text-text-color-light">
-                    @{`${(item.price * item.quantity).toFixed(2)}`}
+                    @ ${item.price.toFixed(2)}
                   </span>
 
                   <p className="text-sm font-semibold text-text-color-medium">
-                    ${item.price.toFixed(2)}
+                    ${`${(item.price * item.quantity).toFixed(2)}`}
                   </p>
                 </div>
               </div>
 
               {/*Remove item button*/}
               <button
-                className="focus-visible:outline-outline-color-medium group rounded-full border-[1px] border-border-color-medium p-[1px] transition-colors duration-150 ease-in hover:border-border-color-strong focus-visible:outline-offset-4"
+                className="group rounded-full border-[1px] border-border-color-medium p-[1px] transition-colors duration-150 ease-in hover:border-border-color-strong focus-visible:outline-offset-4 focus-visible:outline-outline-color-medium"
                 onClick={() => onRemoveItem(item.name)}
               >
                 <svg
@@ -83,9 +84,7 @@ const ProductCart = ({ items, cartCount, onRemoveItem }) => {
             </p>
           </div>
 
-          <button className="hover:bg-hover-state w-full rounded-full bg-primary-color p-3 text-center text-white transition-colors duration-150 ease-in focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary-color">
-            Confirm Order
-          </button>
+          <OrderConfirm items={items} onClearCart={onClearCart} />
         </div>
       )}
     </>
