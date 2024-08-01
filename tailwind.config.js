@@ -40,6 +40,27 @@ export default {
         "text-color-strong": "#260f08",
       },
 
+      //Animations
+      animation: {
+        overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        modalOpen: "modalOpen 500ms ease-in-out",
+      },
+
+      keyframes: {
+        overlayShow: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+
+        modalOpen: {
+          from: {
+            opacity: "0",
+            transform: "translate(-50%, -30%) scale(0.96)",
+          },
+          to: { opacity: "1", transform: "translate(-50%, -50%) scale(1)" },
+        },
+      },
+
       screens: {
         Tablet: "48rem",
         Desktop: "80rem",

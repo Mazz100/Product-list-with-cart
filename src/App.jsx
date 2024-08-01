@@ -68,9 +68,9 @@ function App() {
 
   return (
     <>
-      <div className="flex min-h-screen flex-col items-center bg-body-bg-color p-4 font-red-hat-text">
-        <main className="max-w-[24rem] Tablet:max-w-[42rem] Desktop:grid Desktop:max-w-[90rem] Desktop:grid-cols-2 Desktop:place-content-center Desktop:place-items-start Desktop:gap-6">
-          <h1 className="text-4xl font-bold">Desserts</h1>
+      <div className="flex min-h-screen flex-col items-center bg-body-bg-color font-red-hat-text">
+        <main className="max-w-[21rem] Tablet:max-w-[42rem] Desktop:grid Desktop:max-w-[90rem] Desktop:grid-cols-2 Desktop:place-content-center Desktop:place-items-start Desktop:gap-6">
+          <h1 className="mt-6 text-4xl font-bold">Desserts</h1>
 
           <div className="col-end-2 my-4 Desktop:col-start-1">
             <ul className="Tablet:grid Tablet:grid-cols-2 Tablet:gap-6 Desktop:grid-cols-3 Desktop:gap-6">
@@ -96,7 +96,25 @@ function App() {
             onClearCart={clearCart}
           />
         </main>
-        <footer></footer>
+        <footer className="w-full border-t-2 border-primary-color bg-white p-2 text-center">
+          <p className="text-balance">
+            Challenge by{" "}
+            <a
+              className="font-semibold text-primary-color hover:underline"
+              href="https://www.frontendmentor.io?ref=challenge"
+            >
+              Frontend Mentor
+            </a>
+            . Coded by{" "}
+            <a
+              className="font-semibold text-primary-color hover:underline"
+              href="http://github.com/mazz100"
+            >
+              Mazen Hassan
+            </a>
+            .
+          </p>
+        </footer>
       </div>
     </>
   );
