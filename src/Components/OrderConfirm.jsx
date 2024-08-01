@@ -14,11 +14,11 @@ const OrderConfirm = (props) => {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-[#00000060]">
+        <Dialog.Overlay className="fixed inset-0 bg-[#00000060] data-[state=open]:animate-overlayShow">
           <Dialog.Content
             onEscapeKeyDown={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => e.preventDefault()}
-            className="data-[state=open]:animate-modalOpen fixed left-1/2 top-1/2 max-h-[85vh] w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white p-6 shadow-[4px_8px_5px_0_#888] Tablet:max-w-[500px] Desktop:w-[90vw] Desktop:max-w-[500px]"
+            className="data-[state=open]:animate-dialogOpen fixed left-1/2 top-1/2 max-h-[85vh] w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white p-6 shadow-[4px_8px_5px_0_#888] Tablet:max-w-[500px] Desktop:w-[90vw] Desktop:max-w-[500px]"
           >
             <Dialog.Title asChild>
               <div className="mb-4 flex flex-col items-start gap-4">

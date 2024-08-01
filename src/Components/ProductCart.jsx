@@ -1,10 +1,25 @@
 import React from "react";
 import emptyCart from "../icons/illustration-empty-cart.svg";
-import removeIcon from "../icons/icon-remove-item.svg";
 import carbonIcon from "../icons/icon-carbon-neutral.svg";
 import OrderConfirm from "./OrderConfirm";
+import { useSpring, animated } from "@react-spring/web";
 
 const ProductCart = ({ items, cartCount, onRemoveItem, onClearCart }) => {
+  const TotalPrice = ({ n }) => {
+    const { number } = useSpring({
+      from: { number: 0 },
+      number: n,
+      delay: 200,
+      config: { tension: 210, friction: 20 },
+    });
+
+    return (
+      <animated.span className="text-xl font-bold">
+        {number.to((n) => n.toFixed(2))}
+      </animated.span>
+    );
+  };
+
   return (
     <>
       {!cartCount ? (
@@ -69,12 +84,15 @@ const ProductCart = ({ items, cartCount, onRemoveItem, onClearCart }) => {
 
           <div className="flex w-full items-center justify-between">
             <p className="text-xs font-semibold">Order Total</p>
-            <span className="text-xl font-bold">
-              $
-              {items
-                .reduce((total, item) => total + item.price * item.quantity, 0)
-                .toFixed(2)}
-            </span>
+            <div>
+              <span className="text-xl font-bold">$</span>
+              <TotalPrice
+                n={items.reduce(
+                  (total, item) => total + item.price * item.quantity,
+                  0,
+                )}
+              />
+            </div>
           </div>
 
           <div className="my-4 flex items-center justify-center gap-2 rounded-md bg-bg-color-1 p-4">

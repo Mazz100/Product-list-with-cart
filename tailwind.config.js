@@ -43,7 +43,7 @@ export default {
       //Animations
       animation: {
         overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
-        modalOpen: "modalOpen 500ms ease-in-out",
+        dialogOpen: "dialogOpen 500ms ease-in-out",
       },
 
       keyframes: {
@@ -52,7 +52,7 @@ export default {
           to: { opacity: "1" },
         },
 
-        modalOpen: {
+        dialogOpen: {
           from: {
             opacity: "0",
             transform: "translate(-50%, -30%) scale(0.96)",
