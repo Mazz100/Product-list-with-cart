@@ -1,7 +1,5 @@
 import {} from "react";
 import cartIcon from "../icons/icon-add-to-cart.svg";
-import incrementIcon from "../icons/icon-increment-quantity.svg";
-import decrementIcon from "../icons/icon-decrement-quantity.svg";
 
 const ProductList = ({ product, onUpdateQuantity, onAddToCart }) => {
   //Increment and decrement product quantity
@@ -17,7 +15,18 @@ const ProductList = ({ product, onUpdateQuantity, onAddToCart }) => {
 
   return (
     <li className="my-4 flex w-full flex-col items-center Desktop:my-0">
-      <picture className="overflow-hidden rounded-lg">
+      <picture
+        className="overflow-hidden rounded-lg transition-colors duration-500 ease-out"
+        style={
+          product.quantity > 0
+            ? {
+                border: "2px solid #c73a0f",
+              }
+            : {
+                border: "2px solid white",
+              }
+        }
+      >
         <source srcSet={product.image.desktop} media="(min-width:80rem)" />
         <source srcSet={product.image.tablet} media="(min-width: 48rem)" />
         <img src={product.image.mobile} alt={product.name} />
@@ -29,11 +38,11 @@ const ProductList = ({ product, onUpdateQuantity, onAddToCart }) => {
           aria-label={product.name}
           className="inline-flex -translate-y-1/2 gap-2 rounded-full border-[1px] border-border-color-light bg-white p-2 px-4 font-semibold transition-colors duration-150 ease-in hover:border-primary-color hover:text-primary-color focus-visible:outline-8 focus-visible:outline-offset-8 focus-visible:outline-primary-color"
         >
-          <img src={cartIcon} alt="" />
+          <img src={cartIcon} alt="" aria-hidden={true} />
           Add to Cart
         </button>
       ) : (
-        <div className="flex -translate-y-1/2 items-center justify-center gap-6 rounded-full bg-primary-color p-3">
+        <div className="flex -translate-y-1/2 items-center justify-center gap-6 rounded-full bg-primary-color p-3 transition-colors duration-500">
           <button
             onClick={decrement}
             aria-label="decrement quantity"
@@ -62,7 +71,8 @@ const ProductList = ({ product, onUpdateQuantity, onAddToCart }) => {
             value={product.quantity}
             onChange={(e) => {
               const newQuantity = Number(e.target.value);
-              onUpdateQuantity(newQuantity);
+              onUpdateQuantity(product.quantity >= 999 ? 1 : newQuantity);
+              console.log(newQuantity);
             }}
             autoFocus
             aria-label={`${product.name} with ${product.quantity} quantity`}

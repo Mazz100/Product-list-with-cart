@@ -28,7 +28,7 @@ const ProductCart = ({ items, cartCount, onRemoveItem, onClearCart }) => {
             Your Cart (0)
           </h2>
 
-          <img src={emptyCart} alt="" />
+          <img aria-hidden={true} src={emptyCart} alt="" />
 
           <p className="font-semibold text-text-color-medium">
             Your added items will appear here
