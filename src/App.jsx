@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import ProductList from "./Components/ProductList";
 import ProductCart from "./Components/ProductCart";
+import ProductCategory from "./Components/ProductCategory";
 import productData from "../data.json";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       ? JSON.parse(localStorage.getItem("cartItems"))
       : [],
   );
+
   const cartCount = cartItems.length;
 
   const productWithQuantity = productData.map((product) => ({
@@ -65,10 +67,10 @@ function App() {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center bg-body-bg-color font-red-hat-text">
-        <main className="max-w-[21rem] flex-1 Tablet:max-w-[42rem] Desktop:grid Desktop:max-w-[90rem] Desktop:grid-cols-2 Desktop:place-content-center Desktop:place-items-start Desktop:gap-6">
+        <main className="max-w-[21rem] flex-1 Tablet:max-w-[42rem] Desktop:grid Desktop:max-w-[90rem] Desktop:grid-cols-3 Desktop:place-content-center Desktop:place-items-start Desktop:gap-6">
           <h1 className="mt-6 text-4xl font-bold">Desserts</h1>
 
-          <div className="my-4 Desktop:col-start-1 Desktop:col-end-2">
+          <div className="my-4 Desktop:col-start-1 Desktop:col-end-3">
             <ul className="Tablet:grid Tablet:grid-cols-2 Tablet:gap-6 Desktop:grid-cols-3 Desktop:gap-6">
               {productWithQuantity.map((product) => (
                 <ProductList
@@ -90,6 +92,7 @@ function App() {
             onClearCart={clearCart}
           />
         </main>
+
         <footer className="w-full border-t-2 border-primary-color bg-white p-2 text-center">
           <p className="text-balance">
             Challenge by{" "}

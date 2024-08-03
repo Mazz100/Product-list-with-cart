@@ -72,7 +72,6 @@ const ProductList = ({ product, onUpdateQuantity, onAddToCart }) => {
             onChange={(e) => {
               const newQuantity = Number(e.target.value);
               onUpdateQuantity(product.quantity >= 999 ? 1 : newQuantity);
-              console.log(newQuantity);
             }}
             autoFocus
             aria-label={`${product.name} with ${product.quantity} quantity`}
