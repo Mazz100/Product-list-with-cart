@@ -12,13 +12,21 @@ function App() {
       : [],
   );
 
+  const [selectedCategory, setSelectedCategory] = useState([]);
+
   const cartCount = cartItems.length;
 
-  const productWithQuantity = productData.map((product) => ({
-    ...product,
-    quantity:
-      cartItems.find((item) => item.name === product.name)?.quantity ?? 0, //Update quantity to 0 if it's undefined using `??`
-  }));
+  const productWithQuantity = productData
+    .map((product) => ({
+      ...product,
+      quantity:
+        cartItems.find((item) => item.name === product.name)?.quantity ?? 0, //Update quantity to 0 if it's undefined using `??`
+    }))
+    .filter(
+      (item) =>
+        selectedCategory.length === 0 ||
+        selectedCategory.includes(item.category),
+    );
 
   function addCartItem({ product }) {
     setCartItems((prevCartItems) => [
@@ -50,6 +58,14 @@ function App() {
     setCartItems([]);
   }
 
+  function hanldeCategoryFilter(category) {
+    setSelectedCategory((prevSelectedCategory) =>
+      prevSelectedCategory.includes(category)
+        ? prevSelectedCategory.filter((item) => item !== category)
+        : [...prevSelectedCategory, category],
+    );
+  }
+
   useEffect(() => {
     //Update local storage with each cartItems render
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -67,10 +83,26 @@ function App() {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center bg-body-bg-color font-red-hat-text">
-        <main className="max-w-[21rem] flex-1 Tablet:max-w-[42rem] Desktop:grid Desktop:max-w-[90rem] Desktop:grid-cols-3 Desktop:place-content-center Desktop:place-items-start Desktop:gap-6">
-          <h1 className="mt-6 text-4xl font-bold">Desserts</h1>
+        <main className="max-w-[21rem] flex-1 Tablet:max-w-[42rem] Desktop:grid Desktop:max-w-none Desktop:grid-cols-4 Desktop:place-content-start Desktop:place-items-start Desktop:gap-6">
+          <h1 className="mt-6 text-4xl font-bold Desktop:col-start-2 Desktop:col-end-4">
+            Desserts
+          </h1>
 
-          <div className="my-4 Desktop:col-start-1 Desktop:col-end-3">
+          <div className="my-4 flex flex-wrap items-start justify-start gap-2 Desktop:col-start-1 Desktop:col-end-2 Desktop:mx-4 Desktop:flex-col">
+            <p className="w-full text-2xl font-semibold text-text-color-strong">
+              Select a category
+            </p>
+
+            {productData.map((item) => (
+              <ProductCategory
+                key={item.name}
+                category={item.category}
+                onCategoryFilter={(category) => hanldeCategoryFilter(category)}
+              />
+            ))}
+          </div>
+
+          <div className="my-4 Desktop:col-start-2 Desktop:col-end-4">
             <ul className="Tablet:grid Tablet:grid-cols-2 Tablet:gap-6 Desktop:grid-cols-3 Desktop:gap-6">
               {productWithQuantity.map((product) => (
                 <ProductList
