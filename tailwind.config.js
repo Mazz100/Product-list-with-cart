@@ -14,6 +14,10 @@ export default {
         "bg-color-3": "#c9aea6",
       },
 
+      backgroundImage: {
+        "checked-mark": "url('/src/icons/check.svg')",
+      },
+
       colors: {
         "primary-color": "#c73a0f",
         "secondary-color": "#1ea475",

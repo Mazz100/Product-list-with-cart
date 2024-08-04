@@ -88,7 +88,7 @@ function App() {
             Desserts
           </h1>
 
-          <div className="my-4 flex flex-wrap items-start justify-start gap-2 Desktop:col-start-1 Desktop:col-end-2 Desktop:mx-4 Desktop:flex-col">
+          <div className="my-4 flex flex-wrap items-start justify-start gap-2 Desktop:col-start-1 Desktop:col-end-2 Desktop:mx-6 Desktop:flex-col">
             <p className="w-full text-2xl font-semibold text-text-color-strong">
               Select a category
             </p>
